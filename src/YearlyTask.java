@@ -9,9 +9,4 @@ public class YearlyTask extends Task implements Repeatable {
     public boolean chechOccucance(LocalDateTime requestedDate) {
         return getFirstDate().getYear() == requestedDate.getYear();
     }
-
-    @Override
-    public boolean checkOccurance(LocalDateTime localDateTime) {
-        return false;
-    }
 }

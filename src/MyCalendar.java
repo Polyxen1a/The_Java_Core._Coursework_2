@@ -1,9 +1,8 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class MyCalendar {
 
@@ -37,12 +36,36 @@ public class MyCalendar {
     }
 
     private static Repeatable createTask(int occurance, String title, String description, TaskType taskType, LocalDateTime eventDate) {
-        return null;
+        return switch (occurance) {
+            case 0 -> {
+                OncelyTask oncelyTask = new OncelyTask(title, description, taskType, localDateTime);
+
+                actualTasks.put(oncelyTask.getId(), oncelyTask);
+                yield, oncelyTask;
+            }
+            case 1 -> {
+                DailyTask task = new DailyTask(title, description, taskType, localDateTime);
+                actualTasks.put(task.getId(), task);
+                yield, task;
+            }
+            case 2 -> {
+                WeeklyTask task = new WeeklyTask(title, description, taskType, localDateTime);
+                actualTasks.put(task.getId(), task);
+                yield, task;
+            }
+            case 3 -> {
+                MonthlyTask task = new DailyTask(title, description, taskType, localDateTime)
+            }
+            actualTasks.put(task.getId(), task);
+            yield, task;
+
+            default -> null;
+        };
     }
 
-    public static void editTask(Scanner scanner) {
 
-    }
+
+
 
     public static void deleteTask(Scanner scanner) {
         System.out.println("Текущие задачи \n");
@@ -55,16 +78,34 @@ public class MyCalendar {
     }
 
     private static void printActualTasks() {
+        for (Repeatable task : actualTasks.values());
+        System.out.println(task);
     }
 
     public static void getTasksByDay(Scanner scanner) {
     }
 
     public static void printArchivedTasks() {
+        for (Repeatable task : archivedTasks.values()) {
+            System.out.println(task);
+        }
 
     }
 
     public static void getGroupedByDate() {
+        Map<LocalDate, ArrayList<Repeatable>> taskMap = new HashMap<>();
 
+        for (Map.Entry<Integer, Repeatable> entry : actualTasks.entrySet());
+        Repeatable task = entry.getValue();
+        LocalDate localDate = task.getFirstDate().toLocalDate();
+        if (taskMap.containsKey(localDate)) {
+            taskMap.get(localDate).add(task);
+        } else {
+            taskMap.put(localDate, new ArrayList<>(Collections.singletonList()));
+        }
+        for (Map.Entry<LocalDate, ArrayList<Repeatable>> taskEntry : taskMap.entrySet()){
+            System.out.println(taskEntry.getKey() + " : " + taskEntry, getValue);
+        }
     }
+
 }
